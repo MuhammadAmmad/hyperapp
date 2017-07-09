@@ -4,7 +4,7 @@ export function app(app) {
   var events = {}
   var mixins = []
   var view = app.view
-  var root = app.root || document.body
+  var root = app.root
   var node
   var element
   var locked = false
@@ -26,6 +26,12 @@ export function app(app) {
     initialize(actions, mixin.actions)
   }
 
+  if (root == null) {
+    root = document.body
+  } else if (root.hasChildNodes()) {
+    node = hydrate((element = root.children[0]))
+  }
+
   repaint(emit("init"))
 
   return emit
@@ -34,6 +40,18 @@ export function app(app) {
     if (!locked) {
       requestAnimationFrame(render, (locked = !locked))
     }
+  }
+
+  function hydrate(element) {
+    return element == null
+      ? element
+      : {
+          tag: element.tagName,
+          data: {},
+          children: [].map.call(element.childNodes, function(element) {
+            hydrate(element)
+          })
+        }
   }
 
   function render() {

@@ -29,23 +29,23 @@ test("root", done => {
   })
 })
 
-test("non-empty root", done => {
-  const main = document.createElement("main")
-  main.appendChild(document.createElement("span"))
+// test("non-empty root", done => {
+//   const main = document.createElement("main")
+//   main.appendChild(document.createElement("span"))
 
-  app({
-    view: state => h("div", null, "foo"),
-    events: {
-      loaded: () => {
-        expect(document.body.innerHTML).toBe(
-          `<main><span></span><div>foo</div></main>`
-        )
-        done()
-      }
-    },
-    root: document.body.appendChild(main)
-  })
-})
+//   app({
+//     view: state => h("div", null, "foo"),
+//     events: {
+//       loaded: () => {
+//         expect(document.body.innerHTML).toBe(
+//           `<main><span></span><div>foo</div></main>`
+//         )
+//         done()
+//       }
+//     },
+//     root: document.body.appendChild(main)
+//   })
+// })
 
 test("mutated root", done => {
   const main = document.createElement("main")
